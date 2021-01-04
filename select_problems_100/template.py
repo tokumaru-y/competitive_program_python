@@ -1,8 +1,3 @@
-from sys import stdin
+from sys
 import math
-
-def solve():
-    pass
-if __name__ == "__main__":
-    solve()
-    pass
+sys.setrecursionlimit(10**9)

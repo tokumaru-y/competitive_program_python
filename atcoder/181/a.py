@@ -1,3 +1,2 @@
-a,b=list(map(int,input().split()))
-c,d=list(map(int,input().split()))
-print(a*d-b*c)
+ans="White" if int(input()) % 2 == 0 else "Black"
+print(ans)

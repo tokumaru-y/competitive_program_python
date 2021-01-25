@@ -1,50 +1,48 @@
-from collections import deque
+import sys
+sys.setrecursionlimit(10**8)
+input = sys.stdin.readline
 n=int(input())
-deepth=[0]*n
-edge_list=[[] for _ in range(n)]
-input_list=[]
-num_list=[0]*n
-ans=[0]*n
-total_num = 0
-for _ in range(n):
-    a,b=list(map(int,input().split()))
+ab=[tuple(map(int,input().split())) for _ in range(n-1)]
+q=int(input())
+qs=[tuple(map(int,input().split())) for _ in range(q)]
+
+link_list=[[] for _ in range(n)]
+for a,b in ab:
     a-=1
     b-=1
-    edge_list[a].append(b)
-    edge_list[b].append(a)
-    input_list.append([a,b])
-q=deque(edge_list[0])
-deep_cnt=1
-while len(q) > 0:
-    n_list=q.pop()
-    tmp_list=[]
-    for i in n_list:
-        if deepth[i] == 0 and i != 0:
-            deepth[i]=deep_cnt
-            tmp_list.append(edge_list[i])
-    q.append(sum(tmp_list,[]))
-    deep_cnt+=1
+    link_list[a].append(b)
+    link_list[b].append(a)
 
-query=int(input())
-for _ in range(query):
-    t,s,c=list(map(int,input().split()))
-    s-=1
-    a,b=input_list[s]
-    if t==1:
-        start=a
-        end=b
+deepth=[0]*n
+def descive_deepth(top,pre=-1):
+    next_list=link_list[top]
+    for n_top in next_list:
+        if n_top==pre:continue
+        deepth[n_top] += deepth[top]+1
+        descive_deepth(n_top,top)
+descive_deepth(0)
+
+total_cnt=0
+ans=[0]*n
+for t,e,x in qs:
+    e-=1
+    a,b=ab[e]
+    a-=1
+    b-=1
+    if t==2:
+        a,b=b,a
+    if deepth[a] < deepth[b]:
+        total_cnt+=x
+        ans[b]-=x
     else:
-        start=b
-        end=a
-    if deepth[start] < deepth[end]:
-        ans[start]+=c
-        num_list[start]+=c
-        num_list[end]-=c
-    else:
-        total_num+=c
-        ans[end]-=c
-        num_list[end]-=c
-q=deque()
-q.append(edge_list[0])
-passed=[False]*n
-passed[0] = True
+        ans[a]+=x
+ans[0]+=total_cnt
+def dfs(top,pre=-1):
+    next_list=link_list[top]
+    for n_top in next_list:
+        if n_top == pre:continue
+        ans[n_top]+=ans[top]
+        dfs(n_top,top)
+dfs(0)
+
+print(*ans,sep="\n")

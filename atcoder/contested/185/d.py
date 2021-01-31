@@ -1,35 +1,32 @@
-import copy
 n,m=list(map(int,input().split()))
-a=list(map(int,input().split()))
-gcdlist=copy.deepcopy(a)
-gcdlist.append(0)
-gcdlist.append(n)
-gcdlist=list(set(gcdlist))
-gcdlist.sort()
-a.sort()
-span = float('inf')
-ans=0
-for i in range(1,len(gcdlist)):
-    if gcdlist[i]==1 or gcdlist[i]-1==gcdlist[i-1]:continue
-    span=min(span,gcdlist[i]-1-gcdlist[i-1])
-pre = 0
-if span == 0 or n==m:
-    print(0)
-    exit(0)
-elif m==0:
+if m==0:
     print(1)
     exit(0)
-for i in a:
-    if i == 1:
-        pre = i
-        continue
-    if pre!=1:
-        ans += ()
+a_list=list(map(int,input().split()))
+dif_array=[]
+pre = 1
+a_list.sort()
+for i,a in enumerate(a_list):
+    if i==0:
+        if a==1:
+            continue
+        else:
+            dif_array.append(a-1)
     else:
-        ans+= (i-1-pre)//span if  (i-1-pre)%span==0 else (i-1-pre)//span + 1
-    pre = i
-if n!=pre:
-    ans += (n-pre)//span if (n-pre)%span==0 else (n-pre)//span + 1
-print((ans))
-
-now doing...
+        dif_array.append(a-1-pre)
+    pre=a
+dif_array.sort()
+if a_list[-1]!=n:
+    dif_array.append(n-pre)
+if len(dif_array)==1 and dif_array[0]==0:
+    print(0)
+else:
+    if len(dif_array)==0 or dif_array[-1]==0:
+        print(0)
+        exit(0)
+    dif = next(filter(lambda x : x > 0, dif_array))
+    ans = 0 
+    # print(dif,dif_array)
+    for d in dif_array:
+        ans+=(d//dif) if d%dif==0 else (d//dif) + 1
+    print(ans)

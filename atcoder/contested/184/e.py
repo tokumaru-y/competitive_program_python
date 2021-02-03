@@ -42,6 +42,9 @@ while len(q) > 0:
             for ll in h_table[grid[hi][wi]]:
                 x,y=ll
                 if not passed[x][y]:
-                    heapq.heappush(q,[cnt+2,x,y])
+                    if 0<=abs(x-hi)<=1 and 0<=abs(y-wi)<=1:
+                        heapq.heappush(q,[cnt+1,x,y])
+                    else:
+                        heapq.heappush(q,[cnt+2,x,y])
                     passed[x][y]=True
 print(ans if ans!=float('inf') else -1)

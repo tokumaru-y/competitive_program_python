@@ -28,11 +28,19 @@ cnt_table[s_h][s_w]=0
 passed = [[False]* w for _ in range(h)]
 passed[s_h][s_w]=True
 q.append([s_h,s_w])
-print(h_table)
 ans = float('inf')
 while len(q) > 0:
     nx=q.popleft()
     n_h,n_w = nx
+    if grid[n_h][n_w] in h_table:
+        for ll in h_table[grid[n_h][n_w]]:
+            x,y=ll
+            if passed[x][y]:continue
+            cntt= cnt_table[n_h][n_w]+1
+            q.append([x,y])
+            cnt_table[x][y]=cntt
+            passed[x][y]=True
+        del h_table[grid[n_h][n_w]]
     for i in range(4):
         hi=n_h+d_h[i]
         wi=n_w+d_w[i]
@@ -44,16 +52,6 @@ while len(q) > 0:
             print(ans)
             exit(0)
         q.append([hi,wi])
-        if grid[hi][wi] == '.':
-            q.append([hi,wi])
-            cnt_table[hi][wi] = cnt_table[n_h][n_w]+1
-        if grid[hi][wi] in h_table:
-            for ll in h_table[grid[hi][wi]]:
-                x,y=ll
-                if passed[x][y]:continue
-                cntt= cnt_table[hi][wi]+1
-                q.append([x,y])
-                cnt_table[x][y]=cntt
-                passed[x][y]=True
-            del h_table[grid[hi][wi]]
+        cnt_table[hi][wi] = cnt_table[n_h][n_w]+1
+
 print(ans if ans!=float('inf') else -1)

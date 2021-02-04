@@ -1,4 +1,4 @@
-import heapq
+from collections import deque
 import sys
 input=sys.stdin.readline
 h,w=list(map(int,input().split()))
@@ -22,33 +22,38 @@ for h_i in range(h):
                 h_table[target].append([h_i,w_i])
             else:
                 h_table[target] = [[h_i,w_i]]
-q=[[s_h,s_w]]
+q=deque()
 cnt_table=[[-1] * w for _ in range(h)]
 cnt_table[s_h][s_w]=0
-heapq.heapify(q)
+passed = [[False]* w for _ in range(h)]
+passed[s_h][s_w]=True
+q.append([s_h,s_w])
+print(h_table)
 ans = float('inf')
 while len(q) > 0:
-    nx=heapq.heappop(q)
+    nx=q.popleft()
     n_h,n_w = nx
     for i in range(4):
         hi=n_h+d_h[i]
         wi=n_w+d_w[i]
-        if not(0<=hi<=h-1 and 0<=wi<=w-1) or grid[hi][wi] == '#' or cnt_table[hi][wi] >= 0:continue
+        if not(0<=hi<=h-1 and 0<=wi<=w-1) or grid[hi][wi] == '#' or passed[hi][wi]:continue
         cnt_table[hi][wi]=cnt_table[n_h][n_w]+1
+        passed[hi][wi]=True
         if hi==e_h and wi==e_w:
             ans=cnt_table[n_h][n_w]+1
             print(ans)
             exit(0)
-        heapq.heappush(q,[hi,wi])
+        q.append([hi,wi])
         if grid[hi][wi] == '.':
-            heapq.heappush(q,[hi,wi])
+            q.append([hi,wi])
             cnt_table[hi][wi] = cnt_table[n_h][n_w]+1
         if grid[hi][wi] in h_table:
             for ll in h_table[grid[hi][wi]]:
                 x,y=ll
-                if cnt_table[x][y]>=0:continue
-                cntt= cnt_table[n_h][n_w]+1 if (x==hi and abs(y-wi) == 1) or (y==wi and abs(x-hi)) else cnt_table[n_h][n_w]+2
-                heapq.heappush(q,[x,y])
+                if passed[x][y]:continue
+                cntt= cnt_table[hi][wi]+1
+                q.append([x,y])
                 cnt_table[x][y]=cntt
-                h_table[grid[hi][wi]]=[]
+                passed[x][y]=True
+            del h_table[grid[hi][wi]]
 print(ans if ans!=float('inf') else -1)

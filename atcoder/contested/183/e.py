@@ -1,18 +1,21 @@
 h,w=list(map(int,input().split()))
 grid=[input().rstrip() for _ in range(h)]
-cnt_table=[[0] * w for _ in range(h)]
-cnt_table[0][0]=1
-
-def search(x,y,cnt):
-    if x==0 and y==0:
-        return cnt_table[x][y]
-    nx=x-1 if x-1>=0 else x
-    ny=y-1 if y-1>=0 else y
-    if nx == x and ny == y:
-        return 0
-    if nx == x or ny ==y:
-        search(nx,ny,cnt+1)
-    else:
-        search(nx,y,cnt+1)
-        search(x,ny,cnt+1)
-        search(nx,ny,cnt+1)
+MOD=10**9+7
+dp = [[0] * (w+1) for _ in range(h+1)]
+dpx = [[0] * (w+1) for _ in range(h+1)]
+dpy = [[0] * (w+1) for _ in range(h+1)]
+dpxy = [[0] * (w+1) for _ in range(h+1)]
+dp[1][1]=1
+for i in range(1,h+1):
+    for j in range(1,w+1):
+        if i== 0 and j==0:continue
+        if grid[i-1][j-1]=='#':
+            dpx[i][j]=0
+            dpy[i][j]=0
+            dpxy[i][j]=0
+            continue
+        dp[i][j]+=(dpx[i][j-1]+dpy[i-1][j]+dpxy[i-1][j-1])%MOD
+        dpx[i][j]+=dpx[i][j-1]+dp[i][j]%MOD
+        dpy[i][j]+=dpy[i-1][j]+dp[i][j]%MOD
+        dpxy[i][j]+=dpxy[i-1][j-1]+dp[i][j]%MOD
+print(dp[h][w])

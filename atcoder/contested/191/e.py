@@ -1,11 +1,17 @@
 import heapq
 N,M=list(map(int,input().split()))
-ABC=[list(map(int,input().split())) for _ in range(N)]
-edges=[[float('inf')] * N for _ in range(N)]
+ABC=[list(map(int,input().split())) for _ in range(M)]
+edges={}
 ans=[]
 for a,b,c in ABC:
     a,b=a-1,b-1
-    edges[a][b]=min(edges[a][b],c)
+    if a in edges:
+        if b in edges[a]:
+            edges[a][b]=min(edges[a][b],c)
+        else:
+            edges[a][b]=c
+    else:
+        edges[a]={b:c}
 for i in range(N):
     q=[]
     heapq.heapify(q)
@@ -14,13 +20,13 @@ for i in range(N):
     c = float('inf')
     while len(q) > 0:
         cos,top=heapq.heappop(q)
-        if costs[top] < cos:continue
-        costs[top]=cos
-        if i==0:print(i,cos,top,edges[i])
-        for j in range(N):
-            tmp = edges[top][j]
-            if costs[j] > tmp + cos :
-                heapq.heappush(q,[tmp+cos,j])
-            if j == i and tmp != float('inf'):
-                c=min(c,tmp + cos)
+        if len(edges[top]) ==0:continue
+        for k,v in edges[top].items():
+            tmp_cnt=v + cos
+            if costs[k] > tmp_cnt:
+                costs[k]=tmp_cnt
+                heapq.heappush(q,[tmp_cnt,k])
+            if i == k and tmp_cnt != float('inf'):
+                c = min(c,tmp_cnt)
+                
     print(c if c != float('inf') else -1)

@@ -1,34 +1,26 @@
 import heapq
 N,M=list(map(int,input().split()))
 ABC=[list(map(int,input().split())) for _ in range(M)]
-edges={}
-ans=[]
+link=[[] for _ in range(N)]
 for a,b,c in ABC:
     a,b=a-1,b-1
-    if a in edges:
-        if b in edges[a]:
-            edges[a][b]=min(edges[a][b],c)
-        else:
-            edges[a][b]=c
-    else:
-        edges[a]={b:c}
+    link[a].append([b,c])
+
 for i in range(N):
-    q=[]
-    heapq.heapify(q)
-    costs=[float('inf')] * N
-    heapq.heappush(q,[0,i])
-    c = float('inf')
-    while len(q) > 0:
-        cos,top=heapq.heappop(q)
-        if top not in edges:continue
-        for k,v in edges[top].items():
-            tmp_cnt=v + cos
-            if costs[k] > tmp_cnt:
-                costs[k]=tmp_cnt
-                heapq.heappush(q,[tmp_cnt,k])
-            if i == k and not top == k and tmp_cnt != float('inf'):
-                c = min(c,tmp_cnt)
-                q=[]
-                break
-    if i in edges[i]:c = min(c,edges[i][i])
-    print(c if c != float('inf') else -1)
+    dist=[float('inf')] * N
+    s = i 
+    dist[s]=0
+    ans=float('inf')
+    h=[]
+    heapq.heappush(h,[dist[s],s])
+    while len(h) > 0:
+        d,v=heapq.heappop(h)
+        if d > dist[v]: continue
+        for top,cost in link[v]:
+            if top == i:
+                ans=min(ans,dist[v]+cost)
+            else:
+                if dist[top] > dist[v]+cost:
+                    dist[top] = dist[v] + cost
+                    heapq.heappush(h, [dist[top],top])
+    print(-1 if ans==float('inf') else ans)

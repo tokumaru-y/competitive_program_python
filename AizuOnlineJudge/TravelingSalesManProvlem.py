@@ -24,7 +24,7 @@ def rec(bit,v):
         return 0
     ans = float('inf')
     for u in range(N):
-        if not (bit >> u & 1):
+        if not (bit & 1<<u):
             ans = min(ans, rec(bit|1<<u, u) + graph[v][u])
     dp[bit][v]=ans
     return ans

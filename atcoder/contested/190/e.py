@@ -1,47 +1,50 @@
-import sys
+# https://atcoder.jp/contests/abc190/submissions/19825273
+# 上記をコピー　要確認
 from collections import deque
-input = sys.stdin.readline
-N,M=list(map(int,input().split()))
-edges = [[] for _ in range(N)]
-for _ in range(M):
-    a,b = list(map(int,input().split()))
-    a,b=a-1,b-1
-    edges[a].append(b)
-    edges[b].append(a)
+INF = 1 << 30
+ 
+N, M = map(int, input().split())
+g = [[] for i in range(N)]
+for i in range(M):
+    A, B = map(int, input().split())
+    A -= 1
+    B -= 1
+    g[A].append(B)
+    g[B].append(A)
 K = int(input())
-C = list(map(lambda x : int(x)-1,input().split()))
-
-ans = float('inf')
-dp=[[float('inf')] * N for _ in range(1<<N)]
-def bfs_return_list(t):
-    res = [[float('inf')] * N for _ in range(N)]
-    res[t][t]=1
-    q = deque([])
-    q.append([t,t])
-    while len(q) > 0:
-        nt,bt = q.popleft()
-        if len(edges[nt])==0:continue
-        for l in edges[nt]:
-            if res[t][l] != float('inf'):continue
-            res[t][l]=min(res[t][bt]+1,res[t][l])
-            q.append([l,nt])
-    return res
-
-# 再起
-def search(bit,target):
-    if dp[bit][target] != float('inf'):return dp[bit][target]
-    res = float('inf')
-    for u in C:
-        if (bit & 1<<u):continue
-        res=min(res,search(bit|1<<u, u) + cnt_list[target][u])
-    dp[bit][target]=res
-    return res
-
-for i in C:
-    cnt_list = bfs_return_list(i)
-    tmp_sum=0
-    tmp = search(0,i)
-    ans=min(ans, tmp)
-print(dp)
-print(ans if ans != float('inf') else -1)
-        
+C = list(map(int, input().split()))
+for i in range(K):
+    C[i] -= 1
+ 
+def BFS(s):
+    cost = [INF] * N
+    cost[s] = 0
+    q = deque([s])
+    while q:
+        x = q.popleft()
+        for y in g[x]:
+            if cost[y] == INF:
+                cost[y] = cost[x] + 1
+                q.append(y)
+    return [cost[c] for c in C]
+ 
+cost = [BFS(c) for c in C]
+ 
+dp = [[INF] * K for i in range(1 << K)]
+for i in range(K):
+    dp[1 << i][i] = 1
+ 
+for bit in range(1 << K):
+    for i in range(K):
+        if dp[bit][i] == INF:
+            continue
+        for j in range(K):
+            if bit & 1 << j:
+                continue
+            if dp[bit ^ 1 << j][j] > dp[bit][i] + cost[i][j]:
+                dp[bit ^ 1 << j][j] = dp[bit][i] + cost[i][j]
+ 
+ans = min(dp[-1])
+if ans == INF:
+    ans = -1
+print(ans)

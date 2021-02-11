@@ -9,24 +9,22 @@ graph = [[float('inf')] * V for _ in range(V)]
 for _ in range(E):
     s,t,d=list(map(int,input().split()))
     graph[s][t]=d
-dp=[[-1] * ((1<<V)+10) for _ in range((1<<V)+1)]
-
+dp=[[-1] * (V) for _ in range((1<<V))]
 def rec(bit,v):
     if (dp[bit][v] != -1):return dp[bit][v]
-
-    if bit == 1<<v:
+    if bit == (1<<v):
         dp[bit][v] = 0
         return dp[bit][v]
     res = float('inf')
-    prev_bit = bit & ~(1<<v)
+    prev_bit = bit ^ (1<<v)
     for i in range(V):
         if not (prev_bit & (1<<i)): continue
-        if res > rec(prev_bit,i) + graph[i][v]:
-            res = rec(prev_bit,i) + graph[i][v]
+        if res > (rec(prev_bit,i) + graph[i][v]):
+            res = min(rec(prev_bit,i) + graph[i][v],res)
     dp[bit][v] = res
-    return res
-ans = float('inf')
+    return dp[bit][v]
+ans=float('inf')
 for i in range(V):
     if ans > rec((1<<V)-1,i):
         ans = rec((1<<V)-1,i)
-print(ans if ans != float('inf') else -1)
+print(ans if ans!=float('inf') else -1)

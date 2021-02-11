@@ -5,27 +5,28 @@
 # http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DPL_2_A&lang=ja
 import sys
 sys.setrecursionlimit(10000)
-V,E = list(map(int,input().split()))
-graph = [[float('inf')] * V for _ in range(V)]
-for _ in range(E):
+N,M = list(map(int,input().split()))
+graph = [[float('inf')] * N for _ in range(N)]
+for _ in range(M):
     s,t,d=list(map(int,input().split()))
     graph[s][t]=d
-dp=[[0] * (V) for _ in range((1<<V))]
-def rec(bit,v):
-    if (dp[bit][v] != -1):return dp[bit][v]
-    if bit == (1<<v):
-        dp[bit][v] = 0
+dp=[[-1] * (N) for _ in range((1<<N))]
+def rec(bit,v,origin):
+    if dp[bit][v]!=-1:return dp[bit][v]
+    if bit == 1<<v:
+        dp[bit][v]=graph[i][v]
         return dp[bit][v]
     res = float('inf')
-    prev_bit = (bit^(1<<v))
-    for i in range(V):
-        if not(prev_bit & (1<<i)): continue
-        num = (rec(prev_bit,i) + graph[i][v])
+    pre_bit = (bit ^ (1<<v))
+    for u in range(N):
+        if not (pre_bit & 1<<u):continue
+        num = rec(pre_bit,u,origin) + graph[u][v]
         if res > num:
             res = num
-    dp[bit][v] = res
+    dp[bit][v]=res
     return dp[bit][v]
-ans=float('inf')
-for i in range(V):
-    ans = rec((1<<V)-1,i)
-print(ans if ans!=float('inf') else -1)
+
+ans = float('inf')
+for i in range(N):
+    ans = min(rec((1<<N)-1,i,i),ans)
+print(ans if ans != float('inf') else -1)

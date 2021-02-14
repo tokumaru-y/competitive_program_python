@@ -1,7 +1,11 @@
 start at 2020/1/3
 
-My Goals per Month
+### AizuOnlineJudge  
+solve typical problems.  
 
-January
-solve problems the below link (target's repository is select_problems_100)
+### atcoder
+solve problems.(main)
+
+### select_problesm_100
+solve problems of bilow link  
 https://qiita.com/e869120/items/eb50fdaece12be418faa

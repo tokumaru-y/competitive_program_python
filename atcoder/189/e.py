@@ -28,7 +28,7 @@ def calc1(is_clockwise):
     for i in range(3):
         for j in range(3):
             for k in range(3):
-                tmp[i][j]+=pre[i][k]*t[k][j]
+                tmp[i][j]+=t[i][k]*pre[k][j]
     Memos.append(tmp)
 
 def calc2(p,is_x):
@@ -53,7 +53,7 @@ def calc2(p,is_x):
     for i in range(3):
         for j in range(3):
             for k in range(3):
-                tmp[i][j]+=pre[i][k]*t[k][j]
+                tmp[i][j]+=t[i][k]*pre[k][j]
     Memos.append(tmp)
 
 

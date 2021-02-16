@@ -8,15 +8,15 @@ Memos = [[[1,0,0],[0,1,0],[0,0,1]]]
 def calc1(is_clockwise):
     if is_clockwise:
         t = [
-            [0,-1,0],
-            [1,0,0],
-            [0,0,0]
+            [0,1,0],
+            [-1,0,0],
+            [0,0,1]
         ]
     else:
         t = [
-            [0,1,0],
+            [0,-1,0],
             [1,0,0],
-            [0,0,0]
+            [0,0,1]
         ]
     pre = Memos[-1]
     tmp = [
@@ -36,13 +36,13 @@ def calc2(p,is_x):
         t = [
             [-1,0,2*p],
             [0,1,0],
-            [0,0,0]
+            [0,0,1]
         ]
     else:
         t = [
             [1,0,0],
             [0,-1,2*p],
-            [0,0,0]
+            [0,0,1]
         ]
     pre = Memos[-1]
     tmp = [
@@ -75,7 +75,6 @@ for _ in range(Q):
     b-=1
     x,y=XY[b]
     memo = Memos[a]
-    print(memo)
     x_sum = (memo[0][0]*x + memo[0][1]*y + memo[0][2])
     y_sum = (memo[1][0]*x + memo[1][1]*y + memo[1][2])
     print(x_sum,y_sum)

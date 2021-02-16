@@ -68,7 +68,6 @@ for i in range(M):
         calc2(int(op[1]), True)
     elif op[0] == '4':
         calc2(int(op[1]), False)
-    print(Memos[-1])
 
 Q=int(input())
 for _ in range(Q):
@@ -76,6 +75,7 @@ for _ in range(Q):
     b-=1
     x,y=XY[b]
     memo = Memos[a]
-    x_sum = memo[0][0] + memo[1][0] + memo[2][0]
-    y_sum = memo[0][1] + memo[1][1] + memo[2][1]
+    print(memo)
+    x_sum = (memo[0][0]*x + memo[0][1]*y + memo[0][2])
+    y_sum = (memo[1][0]*x + memo[1][1]*y + memo[1][2])
     print(x_sum,y_sum)

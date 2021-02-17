@@ -1,3 +1,5 @@
+import sys
+input = sys.stdin.readline
 from collections import deque
 
 
@@ -12,15 +14,15 @@ for x,y in XY:
 ans=float('-inf')
 for i in range(N):
     if dp[i]!=float('inf'):continue
-    dp[i]=A[i]
+    # dp[i]=A[i]
     q=deque([i])
     while len(q) > 0:
         n = q.popleft()
         if edges[n]:
             for e in edges[n]:
-                if dp[e] != float('inf'):continue
-                dp[e]=min(dp[n],A[e])
+                if dp[e] <= min(dp[n],A[n]):continue
+                dp[e]=min(dp[n],A[n])
                 q.append(e)
-                ans=max(ans,A[e]-dp[n])
-
+for i in range(N):
+    ans=max(ans,A[i]-dp[i])
 print(ans)

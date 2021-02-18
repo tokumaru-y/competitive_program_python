@@ -1,14 +1,11 @@
-import sys
-n=int(input())
-in_list=[list(map(int,input().split())) for _ in range(n)]
+N=int(input())
+XY=[list(map(int,input().split())) for _ in range(N)]
 ans=0
-for i in range(n):
-    a,b = in_list[i]
-    for j in range(i+1,n):
-        x,y = in_list[j]
-        if x==a:
-            continue
-        dif=(y-b)/(x-a)
-        if -1 <= dif <= 1:
-            ans+=1
+XY.sort()
+for i in range(N):
+    for j in range(i+1,N):
+        x1,y1=XY[i]
+        x2,y2=XY[j]
+        dx,dy=x2-x1,y2-y1
+        if -dx <= dy and dy <= dx:ans+=1
 print(ans)

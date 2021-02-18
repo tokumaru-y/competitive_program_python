@@ -1,3 +1,2 @@
-n,w=list(map(int,input().split()))
-ans=n//w
-print(ans)
+a,b=list(map(int,input().split()))
+print(a//b)

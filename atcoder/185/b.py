@@ -1,18 +1,16 @@
-import sys
-n,m,t=list(map(int,input().split()))
-time_table=[list(map(int,input().split())) for _ in range(m)]
-bateries=n
+N,M,T=list(map(int,input().split()))
+events=[]
 pre=0
-for a,b in time_table:
-    bateries-=(a-pre)
+for _ in range(M):
+    a,b=list(map(int,input().split()))
+    events.append(pre-a)
+    events.append(b-a)
     pre=b
-    if bateries<=0:
+events.append(pre-T)
+battery = N
+for t in events:
+    battery=min(N,battery+t)
+    if battery<=0:
         print("No")
-        exit(0)
-    bateries+=(b-a)
-    bateries=min(bateries,n)
-bateries-=t-pre
-if bateries<=0:
-    print("No")
-else:
-    print("Yes")
+        exit()
+print("Yes")

@@ -1,2 +1,1 @@
-a,b,c,d=list(map(int,input().split()))
-print(min(a,b,c,d))
+print(min(list(map(int,input().split()))))

@@ -14,11 +14,16 @@ for _ in range(N-1):
     edges[b].append(a)
     AB.append([a,b])
 def dfs(t,value):
-    if len(edges[t]) > 0:
-        for e in edges[t]:
-            if deepth[e]!=float('inf'):continue
-            deepth[e]=value+1
-            dfs(e,value+1)
+    q=collections.deque([t])
+    passed=[False]*N
+    passed[0]=True
+    while len(q) > 0:
+        n = q.popleft()
+        for e in edges[n]:
+            if passed[e]:continue
+            passed[e]=True
+            deepth[e]=deepth[n]+1
+            q.append(e)
 deepth[0]=1
 dfs(0,1)
 Q=int(input())
@@ -35,13 +40,14 @@ for _ in range(Q):
         costs[a]+=x
 passed=[False]*N
 passed[0]=True
-q=collections.deque([[0,0]])
+costs[0]+=all_num
+q=collections.deque([0])
 while len(q) > 0:
-    n,c = q.popleft()
-    if passed[n] or len(edges[n]) <= 0:continue
+    n = q.popleft()
+    if len(edges[n]) <= 0:continue
     for e in edges[n]:
         if passed[e]:continue
         passed[e]=True
-        q.append([e,c+costs[e]])
-        costs[e]+=all_num+c
+        q.append(e)
+        costs[e]+=costs[n]
 print(*costs,sep='\n')

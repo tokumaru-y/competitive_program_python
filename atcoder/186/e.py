@@ -4,6 +4,7 @@ from typing import Deque
 
 N=int(input())
 edges=[[] for _ in range(N)]
+AB=[]
 costs=[0]*N
 deepth=[float('inf')]*N
 for _ in range(N-1):
@@ -11,21 +12,23 @@ for _ in range(N-1):
     a,b=a-1,b-1
     edges[a].append(b)
     edges[b].append(a)
-def dfs(t,value,array):
+    AB.append([a,b])
+def dfs(t,value):
     if len(edges[t]) > 0:
         for e in edges[t]:
-            if array[e]!=float('inf'):continue
-            array[e]=value+1
-            dfs(e,value+1,array)
+            if deepth[e]!=float('inf'):continue
+            deepth[e]=value+1
+            dfs(e,value+1)
 deepth[0]=1
-dfs(0,1,deepth)
+dfs(0,1)
 Q=int(input())
 all_num=0
 for _ in range(Q):
     t,e,x=list(map(int,input().split()))
     e-=1
+    a,b=AB[e]
     if t==2:a,b=b,a
-    if deepth[a] > deepth[b]:
+    if deepth[a] < deepth[b]:
         all_num+=x
         costs[b]-=x
     else:

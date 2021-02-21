@@ -1,10 +1,8 @@
-n,x=list(map(int,input().split()))
-s=input().rstrip()
-ans=x
-for c in s:
-    if c=='x':
-        ans -= 1
+N,X=list(map(int,input().split()))
+S=input().rstrip()
+for s in S:
+    if s=='x':
+        X=max(0,X-1)
     else:
-        ans+=1
-    ans = ans if ans>=0 else 0
-print(ans)
+        X+=1
+print(X)

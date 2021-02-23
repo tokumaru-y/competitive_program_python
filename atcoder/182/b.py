@@ -1,28 +1,27 @@
-n=int(input())
-ll=list(map(int,input().split()))
-
-prime_number=[True]*1001
-prime_number[0]=False
-prime_number[1]=False
-prime_list=[]
-for i in range(2,1001):
-    if not prime_number[i]:
-        continue
-    else:
-        prime_list.append(i)
-        tmp=2
-        while i*tmp<=1000:
-            prime_number[i*tmp]=False
-            tmp+=1
-
+import math
+N=int(input())
+A=list(map(int,input().split()))
+cnt = {}
+def divisor(n):
+    res = []
+    for i in range(1,math.isqrt(n)+1):
+        if n%i==0:
+            if i in cnt:
+                cnt[i]+=1
+            else:
+                cnt[i]=1
+            if n//i != i:
+                if n//i in cnt:
+                    cnt[n//i]+=1
+                else:
+                    cnt[n//i]=1
+for a in A:
+    divisor(a)
 ans=0
-cnt=0
-for p in prime_list:
-    tmp_cnt=0
-    for l in ll:
-        tmp_cnt += 1 if l % p == 0 else 0
-    else:
-        if tmp_cnt>cnt:
-            cnt=tmp_cnt
-            ans=p
+tmpcnt=0
+cnt[1]=0
+for k,v in cnt.items():
+    if tmpcnt < v:
+        ans=k
+        tmpcnt=v
 print(ans)

@@ -1,23 +1,17 @@
 import heapq
 H,W=list(map(int,input().split()))
 grid=[list(input()) for _ in range(H)]
-distances=[[0] * W for _ in range(H)]
+dp=[[0] * (W) for _ in range(H)]
+X=[[0] * (W) for _ in range(H)]
+Y=[[0] * (W) for _ in range(H)]
+Z=[[0] * (W) for _ in range(H)]
 MOD=10**9+7
-nx=[0,1,1]
-ny=[1,1,0]
-def bfs(h,w):
-    q=[[0,h,w]]
-    heapq.heapify(q)
-    while len(q) > 0:
-        a,b,c=heapq.heappop(q)
-        print(a,b)
-        for i in range(3):
-            nh=a+nx[i]
-            nw=b+ny[i]
-            if 0<= nh <= H-1 and 0<= nw <= W-1:
-                if grid[nh][nw] == "#":continue
-                distances[nh][nw]+=c+1
-                heapq.heappush(q,[distances[nh][nw],nw,nw])
-    print(distances[H-1][W-1])
-bfs(0,0)
-print(distances[H-1][W-1])
+dp[0][0]=1
+for h in range(H):
+    for w in range(W):
+        if (h==0 and w== 0) or grid[h][w]=="#":continue
+        if w>0:X[h][w]=(X[h][w-1]+dp[h][w-1])%MOD
+        if h>0:Y[h][w]=(Y[h-1][w]+dp[h-1][w])%MOD
+        if h>0 and w>0:Z[h][w]=(Z[h-1][w-1]+dp[h-1][w-1])%MOD
+        dp[h][w]=(X[h][w]+Y[h][w]+Z[h][w])%MOD
+print(dp[H-1][W-1])

@@ -1,11 +1,15 @@
 N,K=list(map(int,input().split()))
 LR=[list(map(int,input().split())) for _ in range(K)]
-dp=[0]*(N+10)
+MOD=998244353
+dp=[0]*(N)
+sdp=[0]*(N+1)
 dp[0]=1
-for i in range(1,N+1):
+sdp[1]=1
+for i in range(1,N):
     for l,r in LR:
-        left=i-l if i-l>0 else 0
-        right=i-r if i-r>0 else 0
-        dp[i]+=dp[left]
-        if left!=right:dp[i]+=dp[right]
-print(dp[N])
+        right = max(0,i-l+1)
+        left = max(0,i-r)
+        dp[i]+=sdp[right] - sdp[left]
+        dp[i]%=MOD
+    sdp[i+1]=sdp[i]+dp[i]
+print(dp[N-1])

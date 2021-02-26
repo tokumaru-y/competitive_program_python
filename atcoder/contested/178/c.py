@@ -5,7 +5,6 @@ elif N==2:
     print(2)
 else:
     MOD=10**9+7
-    ans = 10*N
-    ans%=MOD
-    ans-=(8*N)%MOD
-    print(ans)
+    div = (9**N)%MOD+(9**N)%MOD-(8**N)%MOD
+    ans = (10**N)%MOD - div
+    print(ans%MOD)

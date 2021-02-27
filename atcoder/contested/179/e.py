@@ -1,20 +1,24 @@
 N,X,M=list(map(int,input().split()))
-div_list={X:1}
-div = [X]
-ans = X
-pre = X
-for i in range(1,N):
-    calc = (pre**2)%M
-    if calc == 0:
+orders = [-1]*M
+histories = []
+rounds=[]
+ans = 0
+now = X
+for i in range(N):
+    if orders[now]!= -1:
+        for j in range(orders[now],i):
+            rounds.append(histories[j])
         break
-    if calc in div_list:
-        left = N-i-1
-        ans += sum(div) * (len(div_list)//left)
-        if len(div_list) % left != 0:
-            ans+=sum(div[:left+1])
-        break
-    div.append(calc)
-    div_list[calc]=1
-    ans += calc
-    pre = calc
+    orders[now]= i
+    histories.append(now)
+    ans+=now
+    now = now**2%M
+left = N-len(histories)
+if left == 0:
+    print(ans)
+    exit()
+add_list=[0]*(len(rounds)+1)
+for i in range(len(rounds)):
+    add_list[i+1] = add_list[i] + rounds[i]
+ans += add_list[len(rounds)] * (left // len(rounds)) + add_list[left%len(rounds)]
 print(ans)

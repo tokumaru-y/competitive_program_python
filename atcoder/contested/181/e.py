@@ -1,29 +1,28 @@
+import bisect
 N,M=list(map(int,input().split()))
 H=list(map(int,input().split()))
 W=list(map(int,input().split()))
-sum_list = [0]*((N+1)//2)
+pre_list = [0]*(N//2)
+back_list = [0]*(N//2)
 H.sort()
-W.sort()
-def search(h):
-    left = 0
-    right = M-1
-    while right-left > 1:
-        middle = (left+right)//2
-        if W[middle] >= h:
-            right = middle
-        else:
-            left = middle
-    return left, right
-for i in range((N+1)//2):
-    sum_list[i+1] = H[i*2+1] - H[i*2] + sum_list[i]
+# W.sort()
+for i in range(N//2):
+    pre_list[i] = pre_list[i-1] + abs(H[2*i] -H[2*i+1]) if i!=0 else abs(H[0]-H[1])
+    back_list[i] = back_list[i-1] + abs(H[N-1-2*i] - H[N-2-2*i]) if i != 0 else abs(H[N-1] - H[N-2])
 ans = float('inf')
-for i in range(H):
-    h = H[i]
-    l_index, r_index=search(h)
-    left = W[l_index]
-    right = W[r_index]
-    if abs(h-left) >= abs(h-right):
-        target_index = right if right%2==0 else left
+print(pre_list)
+print(back_list)
+for i in range(M):
+    w = W[i]
+    ind = bisect.bisect_left(H,w)
+    if ind == N:
+        ind-=1
+    if ind % 2 == 0:
+        tmp_sum = pre_list[ind//2-1]+back_list[(N//2)-1-(ind//2)]
+        tmp_sum+= abs(w-H[ind])
     else:
-        target_index = left if left%2==0 else right
-    left_sum = 
+        ind1,ind2 = ind-1,ind+1
+        tmp_sum = min(pre_list[ind1//2-1]+back_list[(N//2)-1-(ind1//2)],pre_list[ind2//2-1]+back_list[(N//2)-1-(ind2//2)])
+
+    ans = min(ans, tmp_sum)
+print(ans)

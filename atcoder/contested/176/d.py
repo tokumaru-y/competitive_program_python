@@ -7,13 +7,16 @@ cnt = [[float('inf')]* W for _ in range(H) ]
 q = []
 heapq.heapify(q)
 heapq.heappush(q, [0,[sh,sw]])
+visited_cnt = 0
 while len(q) > 0 :
     nc,tmp = heapq.heappop(q)
     h,w=tmp
     if cnt[h][w] < nc:continue
+    visited_cnt+=1
     if h==eh and w==ew:
         print(nc)
         exit()
+    if visited_cnt == H*W:break
     cnt[h][w]=nc
     for i in [-1,0,1]:
         for j in [-1,0,1]:
@@ -22,6 +25,7 @@ while len(q) > 0 :
             tw = w+j
             if 0<=th<=H-1 and 0<=tw<=W-1:
                 if grid[th][tw] == '.' and cnt[th][tw] > nc:
+                    cnt[th][tw]=0
                     heapq.heappush(q,[nc,[th,tw]])
     for i in range(-2,3):
         for j in range(-2,3):

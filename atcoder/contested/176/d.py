@@ -1,38 +1,29 @@
-import heapq
+from collections import deque
 H,W=list(map(int,input().split()))
 sh,sw = list(map(lambda x : int(x) - 1,input().split()))
 eh, ew = list(map(lambda x : int(x) - 1,input().split()))
 grid = [input().rstrip() for _ in range(H)]
 cnt = [[float('inf')]* W for _ in range(H) ]
-q = []
-heapq.heapify(q)
-heapq.heappush(q, [0,[sh,sw]])
-visited_cnt = 0
+q = deque([[0,[sh,sw]]])
 while len(q) > 0 :
-    nc,tmp = heapq.heappop(q)
+    nc,tmp = q.popleft()
     h,w=tmp
     if cnt[h][w] < nc:continue
-    visited_cnt+=1
+    cnt[h][w]=nc
     if h==eh and w==ew:
         print(nc)
         exit()
-    if visited_cnt == H*W:break
-    cnt[h][w]=nc
-    for i in [-1,0,1]:
-        for j in [-1,0,1]:
-            if i==j:continue
-            th = h+i
-            tw = w+j
-            if 0<=th<=H-1 and 0<=tw<=W-1:
-                if grid[th][tw] == '.' and cnt[th][tw] > nc:
-                    cnt[th][tw]=0
-                    heapq.heappush(q,[nc,[th,tw]])
     for i in range(-2,3):
         for j in range(-2,3):
-            if i==0 and j==0:continue
-            th = h+i
-            tw = w+j
-            if 0<=th<=H-1 and 0<=tw<=W-1:
-                if cnt[th][tw] < nc or grid[th][tw] == '#':continue
-                heapq.heappush(q,[nc+1,[th,tw]])
+            if i==j and i==0:continue
+            th ,tw = h+i,w+j
+            if not (0<=th<=H-1 and 0<=tw<=W-1):continue
+            if abs(i) + abs(j)>1:
+                if cnt[th][tw] > nc+1 and grid[th][tw] == '.':
+                    cnt[th][tw]=nc+1
+                    q.append([nc+1,[th,tw]])
+            else:
+                if cnt[th][tw] > nc and grid[th][tw] == '.':
+                    cnt[th][tw]=nc
+                    q.appendleft([nc,[th,tw]])
 print(-1)

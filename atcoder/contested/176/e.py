@@ -13,10 +13,11 @@ h_max=max(h_cnt)
 h_list = list(filter(lambda x : h_cnt[x]==h_max, range(H)))
 w_max=max(w_cnt)
 w_list = list(filter(lambda x : w_cnt[x]==w_max, range(W)))
-ans = 0
+ans = h_max+w_max-1
 for h in h_list:
     for w in w_list:
-        tmp_cnt=h_max+w_max
-        if grid[h][w]=='#':tmp_cnt-=1
-        ans=max(ans, tmp_cnt)
+        if grid[h][w] != '#':
+            ans += 1
+            print(ans)
+            exit()
 print(ans)

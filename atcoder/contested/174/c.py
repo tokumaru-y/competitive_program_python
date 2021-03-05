@@ -3,8 +3,9 @@ div={}
 num=0
 cnt=0
 while True:
-    cnt+=1
-    num = (num+7*10**(cnt-1))%K
+    num = num*10 + 7
+    num %= K
+    cnt += 1
     if num == 0:
         print(cnt)
         exit()

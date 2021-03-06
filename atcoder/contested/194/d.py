@@ -1,6 +1,5 @@
 N=int(input())
-dp=[0]*(N+1)
-dp[0]=1
-for i in range(1,N+1):
-    dp[i] = ((dp[i-1]+1)*(i))/N + 1
-print(dp[N])
+ans = 0
+for i in range(1,N):
+    ans += 1/(N-i)
+print(ans*N)

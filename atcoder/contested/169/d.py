@@ -16,6 +16,6 @@ for k,v in cnt.items():
     total = v
     while total >= cnt:
         ans+=1
+        total-=cnt
         cnt+=1
-        total-=1
 print(ans)

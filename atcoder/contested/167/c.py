@@ -12,4 +12,4 @@ for b in range(1<<N):
                 tmp_sum[index-1]+=m
     if min(tmp_sum) >= X:
         ans = min(ans, tmp_m)
-print(ans)
+print(ans if ans!=float('inf') else -1)

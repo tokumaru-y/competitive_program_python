@@ -1,16 +1,14 @@
 N,K=list(map(int,input().split()))
 A=list(map(int,input().split()))
-passed = [-1] * N
-passed[0] = 0
-def search(top):
-    next = A[top] - 1
-    if passed[next]:
-        return passed[top] - passed[next] + 1
-    passed[next] = A[top] + 1
-    search(next)
-round_cnt = search(0)
-if max(passed) >= K:
-    print(passed.index(K)+1)
-    exit()
+dubling = [[0] * N for _ in range(60)]
+for i in range(N):
+    dubling[0][i] = A[i] - 1
 
-left = K - (passed)
+for i in range(59):
+    for j in range(N):
+        dubling[i+1][j] = dubling[i][dubling[i][j]]
+ans = 0
+for i in range(60):
+    if K & (1<<i):
+        ans = dubling[i][ans]
+print(ans+1)

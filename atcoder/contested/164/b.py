@@ -1,5 +1,5 @@
 a,b,c,d = list(map(int,input().split()))
-for i in range(105):
+for i in range(205):
     if i%2==0:
         c -= b
     else:

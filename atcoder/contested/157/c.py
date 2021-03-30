@@ -1,17 +1,26 @@
 N,M=list(map(int,input().split()))
-ans = [-1] * N
+num = [-1] * N
 for _ in range(M):
-    s,c = list(map(int,input().split()))
-    s -=1
-    print(ans)
-    if ans[s] != -1 and ans[s] != c:
+    s,c = list(map(int, input().split()))
+    s -= 1
+    if num[s] != -1 and num[s] != c:
         print(-1)
         exit()
-    ans[s] = c
-for i in range(N):
-    if ans[i] == -1:
-        ans[i] = 0
-
-for i in range(1000):
-    if i < 10**N:continue
-    
+    num[s] = c
+if N==1:
+    for i in range(10):
+        if num[0] != i:
+            print(i)
+            exit()
+else:
+    start = 1*10**(N-1)
+    for i in range(start,1*10**(N)):
+        strnum = str(i)
+        for j in range(N):
+            if num[j] == -1:continue
+            if int(strnum[j]) != num[j]:
+                break
+        else:
+            print(i)
+            exit()
+print(-1)

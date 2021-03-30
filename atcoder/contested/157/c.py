@@ -9,9 +9,12 @@ for _ in range(M):
     num[s] = c
 if N==1:
     for i in range(10):
-        if num[0] != i:
+        if num[0] == i:
             print(i)
             exit()
+    if num[0] == -1:
+        print(0)
+        exit()
 else:
     start = 1*10**(N-1)
     for i in range(start,1*10**(N)):

@@ -11,23 +11,20 @@ for _ in range(M):
     trees[v].append(u)
 ans = 0
 passed = [False]*N
-# これだと、以下のテストケースで1を返してしまう。
-# 4 4
-# 1 2
-# 1 3
-# 1 4
-# 3 4
-# 要するに根からではない場合に、先にTrueを返してしまったりしてしまう。
 def dfs(v, pre):
+    global flag
     for t in trees[v]:
         if t == pre:continue
-        if passed[t]:return False
+        if passed[t]:
+            flag=False
+            break
         passed[t]=True
-        return dfs(t, v)
-    return True
+        dfs(t, v)
+
 for i in range(N):
     if passed[i]:continue
     passed[i] = True
-    if dfs(i, -1):
-        ans += 1
+    flag = True
+    dfs(i, -1)
+    if flag:ans += 1
 print(ans)

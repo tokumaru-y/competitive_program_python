@@ -11,6 +11,13 @@ for _ in range(M):
     trees[v].append(u)
 ans = 0
 passed = [False]*N
+# これだと、以下のテストケースで1を返してしまう。
+# 4 4
+# 1 2
+# 1 3
+# 1 4
+# 3 4
+# 要するに根からではない場合に、先にTrueを返してしまったりしてしまう。
 def dfs(v, pre):
     for t in trees[v]:
         if t == pre:continue

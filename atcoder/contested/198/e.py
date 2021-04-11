@@ -12,18 +12,18 @@ for _ in range(N-1):
     tree[b].append(a)
 ans = []
 passed = [False] * N
+used = [0] * ((10 ** 5)+1)
 passed[0] = True
-used = [False] * ((10 ** 5)+1)
-used[C[0]] = True
+used[C[0]] = 1
 def dfs(n):
-    used[C[n]]=True
-    passed[n]=True
     for h in tree[n]:
         if passed[h]:continue
-        if (not used[C[h]]):
+        passed[h]=True
+        if not used[C[h]]:
             ans.append(h+1)
+        used[C[h]]+=1
         dfs(h)
-    used[n] = False
+        used[C[h]]-=1
 dfs(0)
 ans.append(1)
 ans.sort()

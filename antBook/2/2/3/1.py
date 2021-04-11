@@ -1,22 +1,17 @@
-import copy
-import string
 S=input().rstrip()
 T=input().rstrip()
-ll = len(S)
-ind_list = []
-for i in range(ll):
-    if S[i] == '?':
-        ind_list.append(i)
-def dfs(s, next_index):
-    if len(ind_list) == next_index:
-        ss = ''.join(s)
-        if T in ss:
-            print(ss)
-            exit()
-        return
-    tmp = copy.deepcopy(s)
-    for i in string.ascii_lowercase:
-        tmp[ind_list[next_index]] = i
-        dfs(tmp, next_index+1)
-dfs(list(S), 0)
-print("UNRESTORABLE")
+ls = len(S)
+ans = 'z'*ls
+for i in range(ls):
+    if (S[i] == '?' or S[i] == T[0]) and i+len(T)-1 < ls:
+        for j in range(1,len(T)):
+            if not (S[i+j] == T[j] or S[i+j] == '?'):break
+        else:
+            tmp = ''
+            tmp =  S[:i] + T + S[i+len(T):]
+            strtmp = ''
+            for t in tmp:
+                if t == '?':strtmp += 'a'
+                else:strtmp+=t
+            ans = min(ans, strtmp)
+print(ans if not ans == 'z'*ls else "UNRESTORABLE")

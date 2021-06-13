@@ -4,51 +4,44 @@ input = sys.stdin.readline
 N,M,S,T=list(map(int, input().split()))
 S-=1
 T-=1
-graph = [[]*N for _ in range(N)]
-money = [[0]* N for _ in range(N)]
-snuuku = [[0] * N for _ in range(N)]
+graph_money = [[]*N for _ in range(N)]
+graph_snuuke = [[] * N for _ in range(N)]
 for _ in range(M):
     u,v,a,b = list(map(int, input().split()))
     u-=1
     v-=1
-    graph[u].append(v)
-    graph[v].append(u)
-    money[u][v]=a
-    money[v][u]=a
-    snuuku[u][v]=b
-    snuuku[v][u]=b
-sum_money = [0]*N
-sum_snuuku = [0] * N
+    graph_money[u].append([a,v])
+    graph_money[v].append([a,u])
+    graph_snuuke[u].append([b, v])
+    graph_snuuke[v].append([b, u])
+sum_money = [float('inf')]*N
+sum_snuuku = [float('inf')] * N
 h = [[0,S]]
+sum_money[S]=0
+sum_snuuku[T]=0
 heapq.heapify(h)
-passed = [False] * N
-passed[S] = True
-cnt = 1
+cnt = 0
 while len(h) > 0:
+    cnt += 1
+    if cnt == N:break
     m,t = heapq.heappop(h)
-    for e in graph[t]:
-        if passed[e]:continue
-        cnt += 1
-        passed[e] = True
-        cost = m + money[t][e]
+    for money,e in graph_money[t]:
+        cost = m + money
+        if sum_money[e] <= cost:continue
         sum_money[e]=cost
-        if cnt == N:break
         heapq.heappush(h, [cost, e])
 
-passed=[False]*N
 h = [[0,T]]
 heapq.heapify(h)
-passed[T]=True
-cnt = 1
+cnt = 0
 while len(h) > 0:
+    cnt += 1
+    if cnt == N:break
     s,t = heapq.heappop(h)
-    for e in graph[t]:
-        if passed[e]:continue
-        passed[e]=True
-        cost = s + snuuku[t][e]
+    for snuuku,e in graph_snuuke[t]:
+        cost = s + snuuku
+        if sum_snuuku[e] <= cost:continue
         sum_snuuku[e]=cost
-        cnt +=1
-        if cnt == N:break
         heapq.heappush(h, [cost, e])
 left = 10**15
 min_cost = float('inf')

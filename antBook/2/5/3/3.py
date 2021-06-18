@@ -22,7 +22,7 @@ class UnionFind:
         return self.root(x) == self.root(y)
 
 
-
+from heapq import heapify, heappop
 H,W=list(map(int, input().split()))
 sx,sy=list(map(int, input().split()))
 ex,ey=list(map(int, input().split()))
@@ -31,23 +31,20 @@ sy-=1
 ex-=1
 ey-=1
 grid = [list(map(int, input().split())) for _ in range(H)]
-uf = UnionFind(H*W)
+uf = UnionFind(10**6)
 nodes = []
-hi=[1,0,-1,0]
-wi=[0,1,0,-1]
 ans = 0
 for h in range(H):
     for w in range(W):
         ans += grid[h][w]
-        for i in range(4):
-            nh, nw = h+hi[i], w+wi[i]
-            if not(0<=nh<H and 0<=nw<W):continue
-            nodes.append([grid[h][w]*grid[nh][nw], h+w, nh+nw])
-print(ans)
-nodes.sort(reverse=True)
-for n in nodes:
-    point, h, w = n
+        if 0<h:nodes.append([-1*grid[h-1][w]*grid[h][w], (h-1)*1000**3 + w*1000**2 + h*1000+w])
+        if 0<w:nodes.append([-1*grid[h][w-1]*grid[h][w], h*1000**3 + (w-1)*1000**2 + h*1000+w])
+heapify(nodes)
+while len(nodes) > 0:
+    point, n = heappop(nodes)
+    h = n // 10**6
+    w = n % 10**6
     if not uf.same(h,w):
-        ans += point
+        ans += -1*point
         uf.unite(h,w)
 print(ans)

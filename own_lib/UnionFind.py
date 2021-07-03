@@ -87,8 +87,9 @@ class WUF:
             int: 頂点の親頂点
         """
         if x == self.par[x]: return x
-        self.par[x] = self.root(self.par[x])
+        res = self.root(self.par[x])
         self.weight[x] += self.weight[self.par[x]]
+        self.par[x] = res
         return self.par[x]
     
     def same(self, x, y):

@@ -18,26 +18,22 @@ yen[S] = 0
 snuuke[T] = 0
 
 h = [[0,S]]
-passed = [False] * N
-passed[S] = True
 heapify(h)
 while len(h) > 0:
     cost, nx = heappop(h)
     for v, c in graph_yen[nx]:
-        if passed[v]:continue
-        passed[v] = True
-        yen[v]=min(yen[v], cost+c)
+        total_cost = cost+c
+        if yen[v] <= total_cost:continue
+        yen[v]=total_cost
         heappush(h, [cost+c, v])
 h = [[0, T]]
-passed = [False] * N
-passed[T]=True
 heapify(h)
 while len(h) > 0:
     cost, nx = heappop(h)
     for v, c in graph_snuuke[nx]:
-        if passed[v]:continue
-        passed[v] = True
-        snuuke[v]=min(snuuke[v], cost+c)
+        total_cost=cost+c
+        if snuuke[v] <= total_cost:continue
+        snuuke[v]=cost+c
         heappush(h, [cost+c, v])
 
 ans = float("inf")

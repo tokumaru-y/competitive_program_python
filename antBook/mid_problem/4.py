@@ -4,14 +4,16 @@ left = 0
 right = 10**15
 def check(value):
     check_value = float("inf")
+    times = []
     for h,s in ballons:
-        tmp=h+(N-1)*s
-        check_value=min(tmp,check_value)
-    if check_value>value:
-        return False
-    else:
-        return True
-
+        if h>value:return False
+        t = (value-h)/s
+        times.append(t)
+    times.sort()
+    for i in range(N):
+        if times[i] < i:
+            return False
+    return True
 while right - left > 1:
     mid = (left+right)//2
     is_correct = check(mid)

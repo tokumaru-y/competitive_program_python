@@ -10,7 +10,7 @@ def check(ans):
         if dif <= 0:
             checked=X[i]+ans+1
         else:
-            tmp=max(ans+2*checked-X[i]+1, (ans+X[i]+1+checked+1)//2)
+            tmp=max(ans+2*checked-X[i]+1, (ans+X[i]+checked+1)//2)
             checked=min(checked,tmp)
     return checked>=ans
 while right-left > 1:

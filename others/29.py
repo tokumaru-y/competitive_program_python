@@ -1,0 +1,5 @@
+N=int(input())
+if N == 0:print(1)
+elif N == 1:print(2)
+elif N == 2:print(1)
+else:print(0)

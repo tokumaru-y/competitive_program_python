@@ -43,25 +43,22 @@ else:
             is_w_lower = False
     if is_w_lower:
         limit_w = 200*10**3+1
-        dp = [[0] * (limit_w+1) for _ in range(N+1)]
+        dp = [0] * limit_w
         for i in range(N):
             value, weight = VW[i]
-            for w in range(limit_w+1):
-                if 0 <= w-weight <= limit_w:
-                    dp[i+1][w] = max(dp[i+1][w], dp[i][w-weight] + value)
-                dp[i+1][w] = max(dp[i+1][w], dp[i][w])
-        ans = max(dp[N]) if W >= limit_w else max(dp[N][:W+1])
+            for w in reversed(range(limit_w)):
+                if w-weight>=0:dp[w] = max(dp[w], dp[w-weight]+value)
+        ans = max(dp) if W>=limit_w else max(dp[:W+1])
+        print(ans)
     else:
         limit_v = 200*10**3+1
-        dp = [[float("inf")] * (limit_v+1) for _ in range(N+1)]
-        dp[0][0]=0
+        dp = [float("inf")] * limit_v
+        dp[0]=0
         for i in range(N):
             value, weight = VW[i]
-            for v in range(limit_v+1):
-                if 0<=v-value<=limit_v:
-                    dp[i+1][v]=min(dp[i+1][v], dp[i][v-value]+weight)
-                dp[i+1][v] = min(dp[i+1][v], dp[i][v])
-        for i in reversed(range(limit_v+1)):
-            if dp[N][i] <= W:
+            for v in reversed(range(limit_v)):
+                if 0<=v-value:dp[v]=min(dp[v], dp[v-value]+weight)
+        for i in reversed(range(limit_v)):
+            if dp[i] <= W:
                 print(i)
                 exit()

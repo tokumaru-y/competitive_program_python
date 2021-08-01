@@ -3,8 +3,18 @@ import sys
 sys.setrecursionlimit(10**5)
 S=list(input().rstrip())
 L = len(S)+1
+# dp[i][j]:=[i,j)の範囲で何文字削除できるか
 dp = [[-1] * L for _ in range(L)]
 def search(l,r):
+    """区間DP
+
+    Args:
+        l ([int]): 検索範囲の左端
+        r ([int]): 検索範囲の右端
+
+    Returns:
+        [type]: [description]
+    """
     if r-l<=2:return 0
     if dp[l][r] != -1:return dp[l][r]
     res = dp[l][r]

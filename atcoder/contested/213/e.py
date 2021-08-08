@@ -13,6 +13,7 @@ passed = [[False] * W for _ in range(H)]
 passed[0][0]=True
 while True:
     count,h,w=heappop(hh)
+    passed[h][w]=True
     for i in range(4):
         nh = h+hi[i]
         nw = w+wi[i]
@@ -25,33 +26,33 @@ while True:
         if grid[nh][nw] == '.':
             heappush(hh,[count,nh,nw])
         else:
-            # 横移動
-            if i%2==0:
-                if nh>=1:
-                    if not passed[nh-1][nw]:
-                        if grid[nh-1][nw]!='.':
-                            heappush(hh,[count+1,nh-1,nw])
-                    if nw + 1 <= W-1 and not passed[nh-1][nw+1]:
-                        if grid[nh-1][nw+1]!='.':
-                            heappush(hh,[count+1,nh-1,nw+1])
-                heappush(hh, [count+1,nh,nw])
-                if nw + 1 <= W-1 and grid[nh][nw+1]!='.':
-                    heappush(hh, [count+1,nh,nw+1])
-                if nh <= H-2:
-                    if not passed[nh+1][nw] and grid[nh+1][nw]!=".":
-                        heappush(hh, [count+1,nh+1,nw])
-                    if nw + 1 <= W-1 and not passed[nh+1][nw+1] and grid[nh+1][nw+1]!='.':
-                        heappush(hh, [count+1,nh+1,nw+1])
-            else:
-                if nw>=1:
-                    if not passed[nh][nw-1] and grid[nh][nw-1]:heappush(hh,[count+1,nh,nw-1])
-                    if nh + 1 <= H-1 and not passed[nh+1][nw-1] and grid[nh+1][nw-1] != '.':
-                        heappush(hh,[count+1,nh+1,nw-1])
-                heappush(hh, [count+1,nh,nw])
-                if nh + 1 <= H-1 and not passed[nh+1][nw] and grid[nh+1][nw]!='.':
-                    heappush(hh, [count+1,nh+1,nw])
-                if nw <= W-2:
-                    if not passed[nh][nw+1] and grid[nh][nw+1]!='.':
-                        heappush(hh, [count+1,nh,nw+1])
-                    if nh + 1 <= H-1 and passed[nh+1][nw+1] and grid[nh+1][nw+1]!='.':
-                        heappush(hh, [count+1,nh+1,nw+1])
+            # # 横移動
+            # if i%2==0:
+            #     if nh>=1:
+            #         if not passed[nh-1][nw]:
+            #             heappush(hh,[count+1,nh-1,nw])
+            #         if nw + 1 <= W-1 and not passed[nh-1][nw+1]:
+            #             if grid[nh-1][nw+1]!='.':
+            #                 heappush(hh,[count+1,nh-1,nw+1])
+            #     heappush(hh, [count+1,nh,nw])
+            #     if nw + 1 <= W-1 and not passed[nh][nw+1]:
+            #         heappush(hh, [count+1,nh,nw+1])
+            #     if nh <= H-2:
+            #         if not passed[nh+1][nw]:
+            #             heappush(hh, [count+1,nh+1,nw])
+            #         if nw + 1 <= W-1 and not passed[nh+1][nw+1]:
+            #             heappush(hh, [count+1,nh+1,nw+1])
+            # else:
+            #     if nw>=1:
+            #         if not passed[nh][nw-1]:
+            #             heappush(hh,[count+1,nh,nw-1])
+            #         if nh + 1 <= H-1 and not passed[nh+1][nw-1]:
+            #             heappush(hh,[count+1,nh+1,nw-1])
+            #     heappush(hh, [count+1,nh,nw])
+            #     if nh + 1 <= H-1 and not passed[nh+1][nw]:
+            #         heappush(hh, [count+1,nh+1,nw])
+            #     if nw <= W-2:
+            #         if not passed[nh][nw+1]:
+            #             heappush(hh, [count+1,nh,nw+1])
+            #         if nh + 1 <= H-1 and passed[nh+1][nw+1]:
+            #             heappush(hh, [count+1,nh+1,nw+1])

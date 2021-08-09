@@ -13,8 +13,8 @@ def COMinit():
     inv[1] = 1
     for i in range(2, MAX):
         fac[i] = fac[i - 1] * i % MOD;
-        inv[i] = MOD - inv[MOD%i] * (MOD // i) % MOD;
-        finv[i] = finv[i - 1] * inv[i] % MOD;
+        inv[i] = MOD - inv[MOD%i] * (MOD // i) % MOD
+        finv[i] = finv[i - 1] * inv[i] % MOD
 
 COMinit()
 N=int(input())
@@ -69,3 +69,4 @@ print(dp)
 bfs(0)
 print(dp)
 print(ans)
+print(sum(ans)*inv[N]%MOD)

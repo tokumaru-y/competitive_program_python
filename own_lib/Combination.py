@@ -12,8 +12,8 @@ def COMinit():
     inv[1] = 1
     for i in range(2, MAX):
         fac[i] = fac[i - 1] * i % MOD;
-        inv[i] = MOD - inv[MOD%i] * (MOD // i) % MOD;
-        finv[i] = finv[i - 1] * inv[i] % MOD;
+        inv[i] = MOD - inv[MOD%i] * (MOD // i) % MOD
+        finv[i] = finv[i - 1] * inv[i] % MOD
 
 # 二項係数計算
 def COM(n, k):

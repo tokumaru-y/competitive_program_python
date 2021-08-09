@@ -5,6 +5,12 @@ finv=[0]* MAX
 inv=[0] * MAX
 # テーブルの初期化
 def COMinit():
+    """
+    nCk = n! * k!**-1 * ((n-k)!)**-1を考える
+    fac:= 上記のn!の部分
+    finv:= 上記のN**-1と逆数になっている部分
+    inv:= finvを計算するための1,2,...nの逆元をinv[1],inv[2],...inv[n]
+    """
     fac[0] = 1
     fac[1] = 1
     finv[0] = 1

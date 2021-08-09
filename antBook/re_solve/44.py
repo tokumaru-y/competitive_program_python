@@ -41,7 +41,7 @@ def dfs(v,parent=-1):
             parent_element[v] = ind
             continue
         size, tmp_res = dfs(next_v, v)
-        res *= tmp_res * finv[size+1]
+        res *= (tmp_res)
         res %= MOD
         own_size+=size+1
         dp[v][ind]=tmp_res%MOD
@@ -68,5 +68,4 @@ dfs(0)
 print(dp)
 bfs(0)
 print(dp)
-print(ans)
-print(sum(ans)*inv[N]%MOD)
+print(ans[0]%MOD)

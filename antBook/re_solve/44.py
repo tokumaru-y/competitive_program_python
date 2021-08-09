@@ -35,6 +35,7 @@ def dfs(v,parent=-1):
     element_count_by[v]=len(graph[v])
     res = 1
     own_size = 0
+    dp[v] = [0] * element_count_by[v]
     for ind in range(element_count_by[v]):
         next_v = graph[v][ind]
         if next_v == parent:
@@ -68,4 +69,4 @@ dfs(0)
 print(dp)
 bfs(0)
 print(dp)
-print(ans[0]%MOD)
+print(ans)

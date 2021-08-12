@@ -2,7 +2,10 @@ def LCM(S,T):
     len_s = len(S)
     len_t = len(T)
     dp = [[float("inf")] * (len_t+1) for _ in range(len_s+1)]
-    dp[0][0]=0
+    for i in range(len_t+1):
+        dp[0][i] = i
+    for i in range(len_s+1):
+        dp[i][0]=i
     for i in range(len_s):
         for j in range(len_t):
             if S[i] == T[j]:

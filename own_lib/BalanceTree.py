@@ -156,17 +156,4 @@ class BalancingTree:
             if nd.right:
                 re += debug_node(nd.right)
             return re
-        return debug_node(self.root)[:-1] 
-
-
-L,Q=list(map(int, input().split()))
-B = BalancingTree(32)
-B.append(0)
-B.append(L)
-for _ in range(Q):
-    c,x=list(map(int, input().split()))
-    if c == 1:
-        B.append(x)
-    else:
-        l,r = B.find_l(x),B.find_r(x)
-        print(r-l)
+        return debug_node(self.root)[:-1]

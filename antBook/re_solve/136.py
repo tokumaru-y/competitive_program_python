@@ -1,57 +1,69 @@
+# https://atcoder.jp/contests/joi2008ho/tasks/joi2008ho_e
 W,H=list(map(int, input().split()))
 N=int(input())
 X1,X2,Y1,Y2=[],[],[],[]
 def convert(list1, list2, limit):
     """座標圧縮
     """
-    res1 = set()
+    res = set()
     for element in list1:
         for i in range(-1, 2):
             d = element + i
-            if 0<= d <= limit:res1.add(d)
-    res2 = set()
+            if 0<= d <= limit:res.add(d)
     for element in list2:
         for i in range(-1, 2):
             d = element + i
-            if 0<= d <= limit:res2.add(d)
-    res1 = {v : i for i,v in enumerate(sorted(res1))}
-    res2 = {v : i for i,v in enumerate(sorted(res2))}
-    size = len(set(list(res1) + list(res2)))
-    return res1, res2, size
+            if 0<= d <= limit:res.add(d)
+    res = {v : i for i,v in enumerate(sorted(res))}
+    return res, len(res)
 
-
+def format(list, format_list):
+    res = []
+    for elem in list:
+        res.append(format_list[elem])
+    return res
+X1, X2, Y1, Y2 = [],[],[],[]
 for _ in range(N):
-    x1,y1,x2,y2 = list(map(int, input().split()))
+    x1,y1,x2, y2 = list(map(int, input().split()))
     X1.append(x1)
-    Y1.append(y1)
     X2.append(x2)
+    Y1.append(y1)
     Y2.append(y2)
-
-X1,X2,x_size = convert(X1, X2, W)
-Y1,Y2,y_size = convert(Y1, Y2, H)
-grid = [[0] * (x_size) for _ in range(y_size)]
+conv_x, size_x = convert(X1, X2, W)
+conv_y, size_y = convert(Y1, Y2, H)
+X1 = format(X1, conv_x)
+X2 = format(X2, conv_x)
+Y1 = format(Y1, conv_y)
+Y2 = format(Y2, conv_y)
+print("----")
+print(conv_x)
+grid = [[0] * (size_x) for _ in range(size_y)]
+print("------")
+for a,b in zip(X1,X2):
+    print(a,b)
 for i in range(N):
     for h in range(Y1[i], Y2[i]+1):
         for w in range(X1[i], X2[i]+1):
             grid[h][w] = 1
 ans = 0
+dx = [0,1,-1,0]
+dy = [1,0,0,-1]
 from collections import deque
-dx = [0,1,0,-1]
-dy = [1,0,-1,0]
-for h in range(y_size):
-    for w in range(x_size):
+for h in range(size_y):
+    print(grid[h])
+for h in range(size_y):
+    for w in range(size_x):
         if grid[h][w]:continue
-        grid[h][w]=1
         ans += 1
-        q=deque()
+        q = deque()
         q.append([h,w])
-        while len(q) > 0:
+        grid[h][w]=1
+        while len(q)>0:
             nh,nw = q.popleft()
             for i in range(4):
-                th = dx[i]
-                tw = dy[i]
-                if not (0<=th<=y_size and 0<=tw<=x_size):continue
+                th,tw = dx[i]+nh, dy[i]+nw
+                if not(0<=th<size_y and 0<=tw<size_x):continue
                 if grid[th][tw]:continue
-                q.append([th,tw])
                 grid[th][tw]=1
+                q.append([th,tw])
 print(ans)

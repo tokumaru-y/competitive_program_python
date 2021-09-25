@@ -3,11 +3,13 @@ N,M,H,K=list(map(int, input().split()))
 points = [int(input()) for _ in range(N)]
 lines = [list(map(int, input().split())) for _ in range(M)]
 lines = sorted(lines, key=lambda x:x[1])
+# つながっている場合の点数 以下のFORが終わったタイミングでscores[i]:=iの頂点を選んだ時の点数　となる
 scores = points[::]
 for line in lines[::-1]:
     line_num = line[0]-1
     scores[line_num], scores[line_num+1] = scores[line_num+1],scores[line_num]
 min_dif = 0
+# 現時点での親番号
 now_position = [i+1 for i in range(0, N)]
 for line in lines:
     line_num = line[0]-1

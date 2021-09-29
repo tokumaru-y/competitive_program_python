@@ -4,6 +4,8 @@ N,K=list(map(int, input().split()))
 A=[int(input()) for _ in range(N)]
 # dp[i][j]:=i日目までにj回勝つときの最小勝利回数
 dp = [[float("inf")] * (N+1) for _ in range(N+1)]
+dp[0][0]=0
+dp[1][0]=0
 dp[1][1]=1
 if sum(A) == K:
     print(1)

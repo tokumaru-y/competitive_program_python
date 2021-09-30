@@ -8,7 +8,8 @@ class SegTree:
         """
         初期化
 
-        init_val: 配列の初期値
+        init_val: 配列の元要素
+        ide_ele: 単位元
         """
         n = len(init_val)
         self.segfunc = segfunc

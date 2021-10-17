@@ -1,4 +1,3 @@
-# https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_G&lang=jp
 class LazySegTree:
     # 参考:https://tsutaj.hatenablog.com/entry/2017/03/30/224339
     """
@@ -62,15 +61,3 @@ class LazySegTree:
         left_value = self.get_sum(a, b, 2*k+1, l, (l+r)//2)
         right_value = self.get_sum(a, b, 2*k+2, (l+r)//2, r)
         return left_value + right_value
-
-
-N,Q=list(map(int, input().split()))
-tree = LazySegTree([0] * N, min, 0)
-for _ in range(Q):
-    inp = list(map(int, input().split()))
-    if inp[0] == 0:
-        s,t,x = inp[1:]
-        tree.add(s-1,t,x)
-    else:
-        s,t = inp[1:]
-        print(int(tree.get_sum(s-1,t)))

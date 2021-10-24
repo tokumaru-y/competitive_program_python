@@ -1,3 +1,5 @@
+dx=[0,1,0,-1]
+dy=[1,0,-1,0]
 """BFS ひな形
     dist: 初期頂点からの距離を格納。未訪問は-1に
     que: que。
@@ -10,7 +12,7 @@ dist = [-1] * N
 dist[0]=0
 que = deque([0])
 while len(que) > 0:
-    v = que.pop()
+    v = que.popleft()
     for nv in graph[v]:
         if dist[nv] != -1:continue
         dist[nv] = dist[v] + 1
@@ -34,7 +36,7 @@ prev_w = [[-1] * W for _ in range(H)]
 dist[sx][sy]=0
 que = deque([sx,sy])
 while len(que) > 0:
-    _h,_w = que.pop()
+    _h,_w = que.popleft()
     for i in range(4):
         nh,nw = _h+dx[i], _w+dy[i]
         if not (0<=nh<H and 0<=nw<W):continue

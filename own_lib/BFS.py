@@ -8,6 +8,8 @@ dy=[1,0,-1,0]
 """
 from collections import deque
 dist = [-1] * N
+dx=[0,1,0,-1]
+dy=[1,0,-1,0]
 # スタートする頂点を0とした場合の初期化
 dist[0]=0
 que = deque([0])

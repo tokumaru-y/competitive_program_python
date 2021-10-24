@@ -50,3 +50,27 @@ while len(que) > 0:
             prev_h[nh][nw] = _h
             # どの頂点から来たのか。横情報の座標をメモ
             prev_w[nh][nw] = _w
+
+"""0-1BFS
+    重みがあるものをque.appendleft()
+    重荷がないものはque.append()
+"""
+from collections import deque
+dist = [[-1] * W for _ in range(H)]
+dx=[0,1,0,-1]
+dy=[1,0,-1,0]
+dist[sh][sw] = 0
+que = deque([[sh,sw]])
+while len(que) > 0:
+    h,w = que.popleft()
+    for i in range(4):
+        nh,nw = h+dx[i], w+dy[i]
+        if not(0<=nh<H and 0<=nw<W):continue
+        if dist[nh][nw] > -1:continue
+        if grid[nh][nw] == "#":
+            if dist[h][w] == 2:continue
+            que.append([nh,nw])
+            dist[nh][nw] = dist[h][w] + 1
+        else:
+            que.appendleft([nh,nw])
+            dist[nh][nw] = dist[h][w]

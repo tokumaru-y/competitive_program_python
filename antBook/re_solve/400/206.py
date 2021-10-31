@@ -1,37 +1,26 @@
 # https://atcoder.jp/contests/abc009/tasks/abc009_3
-N,K=list(map(int, input().split()))
 import sys
+from collections import defaultdict
 sys.setrecursionlimit(10**9)
+N,K=list(map(int, input().split()))
 S=input()
-s_list =[]
-for _s in S:
-    s_list.append(_s)
-s_list.sort()
-used = [False] * (len(s_list))
-ans_list = []
-def dfs(tmp_str,used,cnt):
-    if len(tmp_str) == N:
-        ans_list.append("".join(tmp_str))
-        return
-    for i in range(len(s_list)):
-        if used[i]:continue
-        used[i] = True
-        tmp = tmp_str[:]
-        tmp.append(s_list[i])
-        if s_list[i] != S[len(tmp_str)]:
-            if cnt+1>K:
-                used[i]=False
-                continue
-            dfs(tmp,used,cnt+1)
-        else:
-            dfs(tmp,used,cnt)
-        used[i] = False
-for i in range(len(s_list)):
-    used[i] = True
-    cnt = 0
-    if s_list[i] != S[0]:cnt+=1
-    dfs([s_list[i]],used,cnt)
-    used[i] = False
-    if len(ans_list) > 0:
-        print(ans_list[0])
-        exit()
+cnt_dict= defaultdict(int)
+for _s in S:cnt_dict[_s]+=1
+ls=len(S)
+ans = list(S)
+for i in range(ls):
+    # i:=ansのi番目の文字について探索
+    # now入れ替える予定のindex(0-index)
+    now  = i
+    for j in range(i+1,ls):
+        # j:i番目以降の文字で条件を満たす小さい文字があるか
+        if ans[now] > ans[j]:
+            tmp_str = ans[:]
+            tmp_str[i],tmp_str[j] = tmp_str[j],tmp_str[i]
+            dif_cnt = 0
+            for _d in range(ls):
+                if tmp_str[_d] != S[_d]:dif_cnt+=1
+            if dif_cnt<=K:
+                now=j
+    ans[now],ans[i] = ans[i],ans[now]
+print("".join(ans))

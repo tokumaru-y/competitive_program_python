@@ -1,6 +1,6 @@
-# https://qiita.com/Kiri8128/items/6256f8559f0026485d90
 
 class BalancingTree:
+    # 引用元:https://qiita.com/Kiri8128/items/6256f8559f0026485d90
     def __init__(self, n):
         self.N = n
         self.root = self.node(1<<n, 1<<n)
